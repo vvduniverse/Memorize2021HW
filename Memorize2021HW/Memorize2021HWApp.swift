@@ -11,7 +11,7 @@ import SwiftUI
 struct Memorize2021HWApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(emojis: ["", "", "", "", "", ""])
         }
     }
 }

@@ -10,36 +10,65 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let emojiSetOne = ["🚢", "⛴", "🚗", "🚌", "🛳", "🚙", "🛥", "🚕", "🚁", "🛸", "🚀", "🛰", "🚂", "🛩", "✈️", "🚇", "🚲", "🚃", "🏍", "🛺", "🚔", "🚆", "🛵", "🏎", "🚒", "🚑", "🚜", "🚛"]
+    let emojiSetOne = ["🚢", "⛴", "🚗", "🚌", "🛳", "🚙", "🛥", "🚕", "🚁", "🛸", "🚀", "🛰", "🚂", "🛩", "✈️", "🚇", "🚲", "🚃", "🏍", "🛺", "🚔", "🚆", "🛵", "🏎", "🚒", "🚑", "🚜", "🚛", "🚎", "💺"]
     
-    let emojiSetTwo = ["🍏", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🥒", "🌶", "🫑", "🌽", "🥕", "🫒", "🧄", "🧅", "🥔", "🌰", "🥜"]
+    let emojiSetTwo = ["🍏", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑", "🥒", "🌶", "🫑", "🌽", "🥕", "🫒", "🧄", "🧅", "🥔", "🌰", "🥜", "🥚"]
     
-    let emojiSetThree = ["🐶", "🐯", "🐒", "🦇", "🐞", "🐢", "🐡", "🐆", "🦒", "🦙", "🐓", "🦨", "🐱", "🐜", "🐍", "🐠", "🦓", "🦃", "🦫", "🦍", "🦎", "🪰", "🐝", "🪱", "🦋", "🐌", "🦉", "🦀", "🦆"]
+    let emojiSetThree = ["🐶", "🐯", "🐒", "🦇", "🐞", "🐢", "🐡", "🐆", "🦒", "🦙", "🐓", "🦨", "🐱", "🐜", "🐍", "🐠", "🦓", "🦃", "🦫", "🦍", "🦎", "🪰", "🐝", "🪱", "🦋", "🐌", "🦉", "🦀", "🦆", "🐋"]
     
-    
+    @State var emojis: [String]
     
     var body: some View {
-        VStack(alignment: .center) {
-            NavigationView {
-                TabView {
-                    Cards(emojis: emojiSetOne).tabItem { Label("Cars", systemImage: "car.2") }
-                    Cards(emojis: emojiSetTwo).tabItem { Label("Fruits", systemImage: "takeoutbag.and.cup.and.straw") }
-                    Cards(emojis: emojiSetThree).tabItem { Label("Animals", systemImage: "hare.fill") }
+        VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
+            ScrollView {
+                Cards(emojis: emojis)
+            }
+            Spacer()
+            HStack(spacing: 50) {
+                Button(action: {
+                    emojis = emojiSetOne.shuffled()
+                }) {
+                    VStack {
+                        Image(systemName: "car.2")
+                            .font(.title)
+                        Text("Cars")
+                    }
                 }
-                .navigationTitle("Memorize!")
+                Button(action: {
+                    emojis = emojiSetTwo.shuffled()
+                }) {
+                    VStack {
+                        Image(systemName: "takeoutbag.and.cup.and.straw")
+                            .font(.title)
+                        Text("Fruits")
+                    }
+                }
+                Button(action: {
+                    emojis = emojiSetThree.shuffled()
+                }) {
+                    VStack {
+                        Image(systemName: "hare.fill")
+                            .font(.title)
+                        Text("Animals")
+                    }
+                }
             }
         }
-//        .padding(.horizontal)
     }
 }
 
 struct Cards: View {
     let emojis: [String]
-
+    
     var body: some View {
-        ScrollView {
+        VStack {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-                ForEach(emojis.shuffled()[0...Int.random(in: 4...emojis.count)], id: \.self) { emoji in
+//                ForEach(emojis[0...Int.random(in: 1...emojis.count)], id: \.self) { emoji in
+//                    CardView(emoji: emoji)
+//                }
+                ForEach((emojis), id: \.self) { emoji in
                     CardView(emoji: emoji)
                 }
             }
@@ -72,7 +101,7 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-.previewInterfaceOrientation(.portrait)
+        ContentView(emojis: ["", "", "", "", "", ""])
+            .previewInterfaceOrientation(.portrait)
     }
 }
