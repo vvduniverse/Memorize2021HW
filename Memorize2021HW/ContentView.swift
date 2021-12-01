@@ -20,6 +20,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            //            emojis = emojiSetOne
             Text("Memorize!")
                 .font(.largeTitle)
             ScrollView {
@@ -27,33 +28,45 @@ struct ContentView: View {
             }
             Spacer()
             HStack(spacing: 50) {
-                Button(action: {
-                    emojis = emojiSetOne.shuffled()
-                }) {
-                    VStack {
-                        Image(systemName: "car.2")
-                            .font(.title)
-                        Text("Cars")
-                    }
-                }
-                Button(action: {
-                    emojis = emojiSetTwo.shuffled()
-                }) {
-                    VStack {
-                        Image(systemName: "takeoutbag.and.cup.and.straw")
-                            .font(.title)
-                        Text("Fruits")
-                    }
-                }
-                Button(action: {
-                    emojis = emojiSetThree.shuffled()
-                }) {
-                    VStack {
-                        Image(systemName: "hare.fill")
-                            .font(.title)
-                        Text("Animals")
-                    }
-                }
+                button1
+                button2
+                button3
+            }
+        }
+    }
+    
+    var button1: some View {
+        Button(action: {
+            emojis = emojiSetOne.shuffled()
+        }) {
+            VStack {
+                Image(systemName: "car.2")
+                    .font(.title)
+                Text("Cars")
+            }
+        }
+    }
+    
+    var button2: some View {
+        Button(action: {
+            emojis = emojiSetTwo.shuffled()
+        }) {
+            VStack {
+                Image(systemName: "takeoutbag.and.cup.and.straw")
+                    .font(.title)
+                Text("Fruits")
+            }
+        }
+    }
+    
+    var button3: some View {
+        Button(action: {
+            emojis = emojiSetThree.shuffled()
+        }) {
+            VStack {
+                Image(systemName: "hare.fill")
+                    .font(.title)
+                Text("Animals")
             }
         }
     }
@@ -61,14 +74,13 @@ struct ContentView: View {
 
 struct Cards: View {
     let emojis: [String]
-    
+    var rangeEnd: Int {
+        Int.random(in: 4..<emojis.count)
+    }
     var body: some View {
         VStack {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-//                ForEach(emojis[0...Int.random(in: 1...emojis.count)], id: \.self) { emoji in
-//                    CardView(emoji: emoji)
-//                }
-                ForEach((emojis), id: \.self) { emoji in
+                ForEach(emojis[0...rangeEnd], id: \.self) { emoji in
                     CardView(emoji: emoji)
                 }
             }
@@ -94,7 +106,8 @@ struct CardView: View {
         }
         .onTapGesture {
             isFaceUp = !isFaceUp
-        }.aspectRatio(2/3, contentMode: .fit)
+        }
+        .aspectRatio(2/3, contentMode: .fit)
     }
 }
 
